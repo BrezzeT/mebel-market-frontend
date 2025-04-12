@@ -5,15 +5,11 @@ import {
     Typography,
     Button,
     Grid,
-    Card,
-    CardContent,
-    CardActions,
     Chip,
     Tabs,
     Tab,
     Divider,
     useTheme,
-    useMediaQuery,
     IconButton,
     Dialog,
     DialogTitle,
@@ -31,7 +27,6 @@ import axios from 'axios';
 
 const ProductDetails = () => {
     const theme = useTheme();
-    const isMobile = useMediaQuery(theme.breakpoints.down('md'));
     const { id } = useParams();
     const navigate = useNavigate();
     const [product, setProduct] = useState(null);
@@ -64,7 +59,6 @@ const ProductDetails = () => {
     };
 
     const handleAddToCart = () => {
-        // TODO: Implement add to cart functionality
         setOpenDialog(true);
     };
 
@@ -91,7 +85,6 @@ const ProductDetails = () => {
     return (
         <Container maxWidth="lg" sx={{ py: 4 }}>
             <Grid container spacing={4}>
-                {/* Изображения */}
                 <Grid item xs={12} md={6}>
                     <Box
                         sx={{
@@ -101,21 +94,23 @@ const ProductDetails = () => {
                             mb: 2
                         }}
                     >
-                        <Typography
-                            variant="h4"
-                            sx={{
-                                position: 'absolute',
-                                top: '50%',
-                                left: '50%',
-                                transform: 'translate(-50%, -50%)',
-                                color: 'text.secondary'
-                            }}
-                        >
-                            [Placeholder for Main Product Image]
-                        </Typography>
+                        {product.images && product.images[selectedImage] && (
+                            <img
+                                src={product.images[selectedImage]}
+                                alt={product.name}
+                                style={{
+                                    position: 'absolute',
+                                    top: 0,
+                                    left: 0,
+                                    width: '100%',
+                                    height: '100%',
+                                    objectFit: 'cover'
+                                }}
+                            />
+                        )}
                     </Box>
                     <Grid container spacing={1}>
-                        {product.images.map((_, index) => (
+                        {product.images && product.images.map((image, index) => (
                             <Grid item xs={3} key={index}>
                                 <Box
                                     sx={{
@@ -127,25 +122,24 @@ const ProductDetails = () => {
                                     }}
                                     onClick={() => handleImageClick(index)}
                                 >
-                                    <Typography
-                                        variant="body2"
-                                        sx={{
+                                    <img
+                                        src={image}
+                                        alt={`${product.name} - ${index + 1}`}
+                                        style={{
                                             position: 'absolute',
-                                            top: '50%',
-                                            left: '50%',
-                                            transform: 'translate(-50%, -50%)',
-                                            color: 'text.secondary'
+                                            top: 0,
+                                            left: 0,
+                                            width: '100%',
+                                            height: '100%',
+                                            objectFit: 'cover'
                                         }}
-                                    >
-                                        Image {index + 1}
-                                    </Typography>
+                                    />
                                 </Box>
                             </Grid>
                         ))}
                     </Grid>
                 </Grid>
 
-                {/* Информация о товаре */}
                 <Grid item xs={12} md={6}>
                     <Box sx={{ mb: 2 }}>
                         {product.isNew && (
@@ -219,7 +213,6 @@ const ProductDetails = () => {
 
                     <Divider sx={{ my: 3 }} />
 
-                    {/* Табы с дополнительной информацией */}
                     <Box sx={{ width: '100%' }}>
                         <Tabs value={tabValue} onChange={handleTabChange}>
                             <Tab label="Описание" />
@@ -251,7 +244,6 @@ const ProductDetails = () => {
                 </Grid>
             </Grid>
 
-            {/* Диалог добавления в корзину */}
             <Dialog open={openDialog} onClose={handleCloseDialog}>
                 <DialogTitle>
                     Товар добавлен в корзину

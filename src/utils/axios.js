@@ -1,5 +1,4 @@
 import axios from 'axios';
-import { API_ENDPOINTS } from '../config/api';
 
 // Создаем экземпляр axios с базовыми настройками
 const api = axios.create({

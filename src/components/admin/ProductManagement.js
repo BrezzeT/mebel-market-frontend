@@ -4,7 +4,6 @@ import {
     Box,
     Button,
     Dialog,
-    DialogTitle,
     DialogContent,
     DialogActions,
     TextField,

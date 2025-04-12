@@ -5,14 +5,21 @@
       "src": "package.json",
       "use": "@vercel/static-build",
       "config": {
-        "distDir": "build"
+        "distDir": "build",
+        "buildCommand": "npm run build"
       }
     }
   ],
+  "env": {
+    "REACT_APP_API_URL": "https://mebel-market-backend.onrender.com"
+  },
   "routes": [
     {
       "src": "/static/(.*)",
-      "dest": "/static/$1"
+      "headers": {
+        "cache-control": "public, max-age=31536000, immutable"
+      },
+      "continue": true
     },
     {
       "src": "/favicon.ico",

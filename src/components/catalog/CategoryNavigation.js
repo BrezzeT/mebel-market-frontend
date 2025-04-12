@@ -1,5 +1,5 @@
 import React from 'react';
-import { Box, Button, Typography, Divider } from '@mui/material';
+import { Box, Button, Typography } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import { categoryConfig } from '../../config/categoryConfig';
 
@@ -78,7 +78,7 @@ const CategoryNavigation = ({ category, activeSubcategory, activeMaterial, onMat
                 ))}
             </Box>
 
-            {category === 'chairs' && (
+            {config.materials && config.materials.length > 0 && (
                 <Box sx={{ 
                     mt: 2,
                     pt: 2,
@@ -96,12 +96,7 @@ const CategoryNavigation = ({ category, activeSubcategory, activeMaterial, onMat
                     >
                         Материал:
                     </Typography>
-                    {[
-                        { id: 'wooden', label: 'Деревянные' },
-                        { id: 'metal', label: 'Металлические' },
-                        { id: 'soft', label: 'Мягкие' },
-                        { id: 'withArmrests', label: 'С подлокотниками' }
-                    ].map((material) => (
+                    {config.materials.map((material) => (
                         <Button
                             key={material.id}
                             onClick={() => handleMaterialClick(material.id)}
