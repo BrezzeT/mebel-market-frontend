@@ -38,7 +38,7 @@ const Login = () => {
         try {
             console.log('Attempting login with:', { email: formData.email });
             
-            const response = await api.post('/auth/login', formData);
+            const response = await api.post('/api/auth/login', formData);
             console.log('Login response:', response.data);
 
             if (!response.data.token || !response.data.isAdmin) {
