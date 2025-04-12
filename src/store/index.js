@@ -12,6 +12,16 @@ const productsPersistConfig = {
 
 const persistedProductReducer = persistReducer(productsPersistConfig, productReducer);
 
+// Middleware для логирования ошибок
+const errorLogger = store => next => action => {
+    try {
+        return next(action);
+    } catch (error) {
+        console.error('Redux error:', error);
+        return next({ type: 'ERROR', payload: error.message });
+    }
+};
+
 export const store = configureStore({
     reducer: {
         products: persistedProductReducer
@@ -21,7 +31,7 @@ export const store = configureStore({
             serializableCheck: {
                 ignoredActions: ['persist/PERSIST']
             }
-        })
+        }).concat(errorLogger)
 });
 
 export const persistor = persistStore(store); 

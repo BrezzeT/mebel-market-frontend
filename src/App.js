@@ -5,11 +5,8 @@ import { CircularProgress, Box, Alert } from '@mui/material';
 import CssBaseline from '@mui/material/CssBaseline';
 import Header from './components/layout/Header';
 import Home from './pages/Home';
-
-// Компоненты, которые нужны сразу
 import Footer from './components/layout/Footer';
 import ProtectedRoute from './components/auth/ProtectedRoute';
-import CategorySection from './components/categories/CategorySection';
 import CatalogPage from './components/catalog/CatalogPage';
 
 // Компонент для обработки ошибок
@@ -42,13 +39,20 @@ class ErrorBoundary extends React.Component {
     }
 }
 
-// Ленивая загрузка компонентов
-const CategoryPage = lazy(() => import('./components/public/CategoryPage'));
-const Catalog = lazy(() => import('./components/public/Catalog'));
-const ProductDetails = lazy(() => import('./components/public/ProductDetails'));
-const AdminPanel = lazy(() => import('./components/admin/AdminPanel'));
-const Login = lazy(() => import('./components/auth/Login'));
-const Register = lazy(() => import('./components/auth/Register'));
+// Ленивая загрузка компонентов с обработкой ошибок
+const lazyLoad = (importFunc) => {
+    return lazy(() => {
+        return importFunc().catch(error => {
+            console.error('Error loading component:', error);
+            return { default: () => <Alert severity="error">Ошибка загрузки компонента</Alert> };
+        });
+    });
+};
+
+const ProductDetails = lazyLoad(() => import('./components/public/ProductDetails'));
+const AdminPanel = lazyLoad(() => import('./components/admin/AdminPanel'));
+const Login = lazyLoad(() => import('./components/auth/Login'));
+const Register = lazyLoad(() => import('./components/auth/Register'));
 
 // Компонент загрузки
 const LoadingSpinner = () => (

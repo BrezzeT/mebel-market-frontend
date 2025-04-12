@@ -1,103 +1,73 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { AppBar, Toolbar, Container, Box, IconButton, Badge } from '@mui/material';
+import { AppBar, Toolbar, Container, Box, IconButton, Badge, Button } from '@mui/material';
 import { styled } from '@mui/material/styles';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import SearchIcon from '@mui/icons-material/Search';
 
-const StyledAppBar = styled(AppBar)({
-    backgroundColor: '#FAF0E6', // Бежевый цвет как на макете
+const StyledAppBar = styled(AppBar)(({ theme }) => ({
+    backgroundColor: theme.palette.background.default,
     boxShadow: 'none',
     position: 'relative'
-});
+}));
 
-const Logo = styled(Link)({
-    color: '#46342E', // Коричневый цвет как на макете
+const Logo = styled(Link)(({ theme }) => ({
+    color: theme.palette.primary.main,
     textDecoration: 'none',
     fontSize: '24px',
     fontWeight: 500,
     '&:hover': {
-        color: '#46342E'
+        color: theme.palette.primary.dark
     }
-});
+}));
 
-const NavLink = styled(Link)({
-    color: '#46342E',
+const NavLink = styled(Link)(({ theme }) => ({
+    color: theme.palette.primary.main,
     textDecoration: 'none',
-    marginRight: '32px',
+    marginRight: theme.spacing(4),
     fontSize: '16px',
     '&:hover': {
-        color: '#000'
+        color: theme.palette.primary.dark
     }
-});
+}));
 
-const ContactButton = styled('button')({
-    backgroundColor: '#46342E',
-    color: '#fff',
-    border: 'none',
-    borderRadius: '8px',
-    padding: '12px 24px',
-    cursor: 'pointer',
-    fontSize: '16px',
+const ContactButton = styled(Button)(({ theme }) => ({
+    backgroundColor: theme.palette.primary.main,
+    color: theme.palette.primary.contrastText,
     '&:hover': {
-        backgroundColor: '#2E231E'
+        backgroundColor: theme.palette.primary.dark
     }
-});
-
-const LocationText = styled('span')({
-    color: '#46342E',
-    fontSize: '14px',
-    display: 'flex',
-    alignItems: 'center',
-    marginRight: '24px'
-});
-
-const PhoneNumber = styled('a')({
-    color: '#46342E',
-    textDecoration: 'none',
-    fontSize: '16px',
-    fontWeight: 500,
-    '&:hover': {
-        color: '#000'
-    }
-});
+}));
 
 const Header = () => {
     return (
         <StyledAppBar position="static">
             <Container maxWidth="lg">
-                <Toolbar sx={{ justifyContent: 'space-between', padding: '16px 0' }}>
-                    <Box sx={{ display: 'flex', alignItems: 'center' }}>
-                        <Logo to="/">hochustul</Logo>
-                        <Box sx={{ marginLeft: '48px' }}>
-                            <NavLink to="/catalog">Каталог</NavLink>
-                            <NavLink to="/delivery">Путь мебели до дома</NavLink>
-                            <NavLink to="/contacts">Контакты</NavLink>
-                        </Box>
+                <Toolbar>
+                    <Logo to="/">Логотип</Logo>
+                    <Box sx={{ flexGrow: 1, display: 'flex', justifyContent: 'center' }}>
+                        <NavLink to="/catalog">Каталог</NavLink>
+                        <NavLink to="/about">О нас</NavLink>
+                        <NavLink to="/contacts">Контакты</NavLink>
                     </Box>
-
-                    <Box sx={{ display: 'flex', alignItems: 'center' }}>
-                        <LocationText>
-                            Казань
-                        </LocationText>
-                        <PhoneNumber href="tel:89393800714">
-                            8 939 380 07 14
-                        </PhoneNumber>
-                        <Box sx={{ marginLeft: '32px', display: 'flex', gap: '16px' }}>
-                            <ContactButton>Связаться</ContactButton>
-                            <IconButton color="inherit">
-                                <SearchIcon sx={{ color: '#46342E' }} />
-                            </IconButton>
-                            <IconButton>
-                                <Badge badgeContent={0} color="primary">
-                                    <ShoppingCartIcon sx={{ color: '#46342E' }} />
-                                </Badge>
-                            </IconButton>
-                            <IconButton>
-                                <FavoriteIcon sx={{ color: '#46342E' }} />
-                            </IconButton>
-                        </Box>
+                    <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
+                        <IconButton color="primary">
+                            <SearchIcon />
+                        </IconButton>
+                        <IconButton color="primary">
+                            <Badge badgeContent={0} color="error">
+                                <FavoriteIcon />
+                            </Badge>
+                        </IconButton>
+                        <IconButton color="primary">
+                            <Badge badgeContent={0} color="error">
+                                <ShoppingCartIcon />
+                            </Badge>
+                        </IconButton>
+                        <ContactButton variant="contained">
+                            Связаться с нами
+                        </ContactButton>
                     </Box>
                 </Toolbar>
             </Container>
